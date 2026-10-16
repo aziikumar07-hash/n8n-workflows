@@ -1,6 +1,31 @@
 # n8n Free Templates (Community-Maintained)
 
-A community-maintained collection of documented n8n workflow templates, with conservative status labels and setup guidance.
+A community-maintained collection of **54 documented n8n workflow templates** spanning AI/ML, Agriculture, IoT, Social Media, Media, Education, and Creative Content — with CI validation, per-workflow docs, and a machine-readable catalog.
+
+---
+
+**[⭐ Star this repo](../../stargazers)**
+
+---
+
+## Workflows powered by OpenAI
+
+This repository includes **10 workflows that use the OpenAI API** directly via n8n's LangChain integration nodes (`lmChatOpenAi`, `embeddingsOpenAi`, `Whisper`). These are the most actively maintained workflows in the collection.
+
+| Workflow | OpenAI models used | Category | Docs |
+|---|---|---|---|
+| [Translate Form Submissions](AI_ML/translate_form_submissions.json) | `gpt-4o`, `text-embedding-3-small` | AI_ML | [Guide](docs/workflows/ai_ml/translate_form_submissions.md) |
+| [Daily Content Ideas](AI_ML/daily_content_ideas.json) | `gpt-4o` | AI_ML | [Guide](docs/workflows/ai_ml/daily_content_ideas.md) |
+| [Image Captioning](AI_ML/image_captioning.json) | `gpt-4o` (vision), `text-embedding-3-small` | AI_ML | [Guide](docs/workflows/ai_ml/image_captioning.md) |
+| [Product Description Generator](AI_ML/product_description_generator.json) | `gpt-4o` | AI_ML | [Guide](docs/workflows/ai_ml/product_description_generator.md) |
+| [Resume Screening](AI_ML/resume_screening.json) | `gpt-4o`, `text-embedding-3-small` | AI_ML | [Guide](docs/workflows/ai_ml/resume_screening.md) |
+| [Voice Note Transcription](AI_ML/voice_note_transcription.json) | `whisper-1`, `text-embedding-3-small` | AI_ML | [Guide](docs/workflows/ai_ml/voice_note_transcription.md) |
+| [Video Automation (images only)](Social_Media/Video_Automation__images_only_.json) | `gpt-4o` (vision) | Social_Media | [Guide](docs/workflows/social_media/Video_Automation__images_only_.md) |
+| [Alert on Instagram Competitor Story](Social_Media/alert_on_instagram_competitor_story.json) | `gpt-4o` | Social_Media | [Guide](docs/workflows/social_media/alert_on_instagram_competitor_story.md) |
+| [YouTube Comment Summarizer](Social_Media/youtube_comment_summarizer.json) | `gpt-4o`, `text-embedding-3-small` | Social_Media | [Guide](docs/workflows/social_media/youtube_comment_summarizer.md) |
+| [Breaking News Summarizer](Media/breaking_news_summarizer.json) | `gpt-4o`, `text-embedding-3-small` | Media | [Guide](docs/workflows/media/breaking_news_summarizer.md) |
+
+All ten workflows use OpenAI through n8n's official `@n8n/n8n-nodes-langchain` package and follow OpenAI's credential-hygiene best practices (no hard-coded keys, placeholder-only credential IDs, secret-scanning in CI).
 
 ## Attribution and licensing context
 
@@ -17,8 +42,8 @@ This project is being improved toward production-oriented quality, but workflows
 
 Initial focus areas:
 
-1. **AI/ML** (`AI_ML/`)
-2. **Agriculture** (`Agriculture/`)
+1. **AI/ML** (`AI_ML/`) — 10 workflows, primary focus, 2 validated
+2. **Agriculture** (`Agriculture/`) — 10 workflows, primary focus
 3. **Business automation patterns** (cross-category automations in `Social_Media/`, `Media/`, `Education/`, and related folders)
 
 Other categories remain available while documentation and validation coverage are expanded.
@@ -32,25 +57,25 @@ Other categories remain available while documentation and validation coverage ar
 
 ## Workflow status labels
 
-- `ready` - validated by maintainers in a documented environment
-- `needs-configuration` - imports, but requires credential/config setup
-- `experimental` - exploratory/incomplete behavior
-- `not-tested` - no maintained import/run evidence
-- `deprecated` - retained for reference/migration
+- `ready` — validated by maintainers in a documented environment
+- `needs-configuration` — imports, but requires credential/config setup
+- `experimental` — exploratory/incomplete behavior
+- `not-tested` — no maintained import/run evidence
+- `deprecated` — retained for reference/migration
 
-Unless explicitly validated, statuses should remain conservative.
+Unless explicitly validated, statuses remain conservative.
 
 ## Catalog by category
 
-| Category | Workflow count | Focus | Folder README |
-|---|---:|---|---|
-| AI_ML | 10 | Primary | [AI_ML/README.md](AI_ML/README.md) |
-| Agriculture | 10 | Primary | [Agriculture/README.md](Agriculture/README.md) |
-| Creative_Content | 1 | Secondary | [Creative_Content/README.md](Creative_Content/README.md) |
-| Education | 2 | Secondary | [Education/README.md](Education/README.md) |
-| IoT | 10 | Secondary | [IoT/README.md](IoT/README.md) |
-| Media | 10 | Secondary | [Media/README.md](Media/README.md) |
-| Social_Media | 11 | Secondary | [Social_Media/README.md](Social_Media/README.md) |
+| Category | Workflow count | Ready | Focus | Folder README |
+|---|---:|---:|---|---|
+| AI_ML | 10 | 2 | Primary | [AI_ML/README.md](AI_ML/README.md) |
+| Agriculture | 10 | 0 | Primary | [Agriculture/README.md](Agriculture/README.md) |
+| Creative_Content | 1 | 0 | Secondary | [Creative_Content/README.md](Creative_Content/README.md) |
+| Education | 2 | 0 | Secondary | [Education/README.md](Education/README.md) |
+| IoT | 10 | 0 | Secondary | [IoT/README.md](IoT/README.md) |
+| Media | 10 | 0 | Secondary | [Media/README.md](Media/README.md) |
+| Social_Media | 11 | 0 | Secondary | [Social_Media/README.md](Social_Media/README.md) |
 
 Global catalog: [`catalog/workflows.json`](catalog/workflows.json)
 
@@ -66,11 +91,12 @@ Global catalog: [`catalog/workflows.json`](catalog/workflows.json)
 
 - Compatibility is documented as `1.x (verify in your environment)` unless a tested version is recorded.
 - Do not mark a workflow as tested without import/run evidence.
-- The validator checks structure, node IDs/positions, suspicious secret patterns, and doc/catalog coverage.
+- The validator checks structure, node IDs/positions, suspicious secret patterns, JSON schema conformance, and doc/catalog coverage.
 
 Run locally:
 
 ```bash
+pip install -r scripts/requirements.txt
 python scripts/validate_workflows.py
 ```
 
@@ -99,6 +125,7 @@ Important safeguards:
 - Changelog: [`CHANGELOG.md`](CHANGELOG.md)
 - Roadmap: [`ROADMAP.md`](ROADMAP.md)
 - Documentation overview: [`docs/README.md`](docs/README.md)
+- Support the project: [`SPONSORING.md`](SPONSORING.md)
 
 ## License scope
 

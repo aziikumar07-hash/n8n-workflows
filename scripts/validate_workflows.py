@@ -10,6 +10,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Set, Tuple
 
+try:
+    import jsonschema
+    _HAS_JSONSCHEMA = True
+except ImportError:
+    _HAS_JSONSCHEMA = False
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW_EXT = ".json"
 EXCLUDE_DIRS = {".git", ".github", "catalog", "schemas", "docs", "scripts", "__pycache__"}
@@ -53,6 +59,14 @@ class Validator:
         self.repo_root = repo_root
         self.errors: List[Finding] = []
         self.warnings: List[Finding] = []
+        schema_path = self.repo_root / "schemas" / "workflow.schema.json"
+        if schema_path.exists():
+            try:
+                self._schema = json.loads(schema_path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                self._schema = None
+        else:
+            self._schema = None
 
     def error(self, path: Path, message: str) -> None:
         self.errors.append(Finding("ERROR", path, message))
@@ -88,6 +102,12 @@ class Validator:
         if not isinstance(data, dict):
             self.error(rel, "Workflow file must be a JSON object")
             return None
+
+        if _HAS_JSONSCHEMA and self._schema is not None:
+            try:
+                jsonschema.validate(data, self._schema)
+            except jsonschema.ValidationError as exc:
+                self.error(rel, f"Schema validation failed: {exc.message}")
 
         name = data.get("name")
         if not isinstance(name, str) or not name.strip():

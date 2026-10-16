@@ -1,6 +1,6 @@
 # Roadmap
 
-## Milestone 1 - Trust baseline (current)
+## Milestone 1 - Trust baseline (complete)
 
 - [x] Attribution and third-party notice policy
 - [x] Scoped license for original repository materials
@@ -8,11 +8,13 @@
 - [x] Workflow catalog + docs coverage baseline
 - [x] JSON/structure/coverage validation in CI
 
-## Milestone 2 - Quality hardening
+## Milestone 2 - Quality hardening (in progress)
 
-- [ ] Validate top priority workflows end-to-end in n8n 1.x
-- [ ] Promote only verified workflows to `ready`
-- [ ] Add category-level compatibility notes and known limitations
+- [x] JSON schema validation integrated into CI (`jsonschema` via `scripts/requirements.txt`)
+- [x] First two workflows promoted to `ready` with full setup docs, sample payloads, and SQL scripts (`translate_form_submissions`, `daily_content_ideas`)
+- [ ] Validate remaining AI/ML and Social Media priority workflows end-to-end in n8n 1.x
+- [ ] Promote additional verified workflows to `ready`
+- [ ] Add category-level compatibility notes and known limitations to all category READMEs
 - [ ] Add safer default error handling/retry guidance in docs
 
 ## Milestone 3 - Community and maintenance

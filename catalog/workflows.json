@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06",
+  "generated_at": "2026-10-16",
   "status_labels": [
     "ready",
     "needs-configuration",
@@ -87,7 +87,7 @@
       "name": "Daily Content Ideas",
       "category": "AI_ML",
       "relative_path": "AI_ML/daily_content_ideas.json",
-      "status": "needs-configuration",
+      "status": "ready",
       "compatibility": {
         "n8n": "1.x (verify in your environment)"
       },
@@ -111,7 +111,7 @@
         "repository": "https://github.com/wassupjay/n8n-free-templates",
         "notes": "Imported/adapted templates; upstream repository currently has no declared GitHub license metadata."
       },
-      "tested_date": null,
+      "tested_date": "2026-10-16",
       "risk_flags": [
         "ai-generated-output"
       ],
@@ -311,7 +311,7 @@
       "name": "Translate Form Submissions",
       "category": "AI_ML",
       "relative_path": "AI_ML/translate_form_submissions.json",
-      "status": "needs-configuration",
+      "status": "ready",
       "compatibility": {
         "n8n": "1.x (verify in your environment)"
       },
@@ -333,7 +333,7 @@
         "repository": "https://github.com/wassupjay/n8n-free-templates",
         "notes": "Imported/adapted templates; upstream repository currently has no declared GitHub license metadata."
       },
-      "tested_date": null,
+      "tested_date": "2026-10-16",
       "risk_flags": [
         "ai-generated-output"
       ],

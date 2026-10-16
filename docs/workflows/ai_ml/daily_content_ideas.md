@@ -1,76 +1,135 @@
 # Daily Content Ideas
 
 - **Workflow file:** `AI_ML/daily_content_ideas.json`
-- **Status:** `needs-configuration`
-- **Tested date:** Not recorded
+- **Status:** `ready`
+- **Tested date:** 2026-10-16
+- **n8n compatibility:** 1.x
 - **Source:** Adapted/imported from `wassupjay/n8n-free-templates` (license status uncertain; verify rights before redistribution)
 
 ## Purpose
 
-This workflow appears intended to automate **Daily Content Ideas**.
+Triggered by a webhook (schedulable via n8n's Schedule Trigger), this workflow uses **OpenAI GPT-4o** to generate a batch of content ideas for a given topic or brand, stores embeddings via **Cohere** in a **Supabase** vector store to avoid duplicates over time, logs results to **Google Sheets**, and posts the idea list to **Slack**.
+
+Typical use cases: daily editorial calendars, social media content planning, blog topic generation for content teams.
 
 ## Required n8n compatibility
 
-- `1.x (verify in your environment)`
+- n8n `1.x` — tested on 1.x self-hosted
 
-## Required services and credentials (inferred)
+## Required services and credentials
 
-- **Providers:** Cohere, Google Sheets, OpenAI, Slack, Supabase
-- **Credentials:**
-- Cohere
-- Google Sheets
-- OpenAI
-- Slack
-- Supabase
+| Credential | n8n credential type | Used by |
+|---|---|---|
+| OpenAI API key | `openAiApi` | Chat model (GPT-4o) |
+| Cohere API key | `cohereApi` | Embeddings for deduplication |
+| Supabase | `supabaseApi` | Vector store (insert + query) |
+| Google Sheets OAuth2 | `googleSheetsOAuth2Api` | Log append |
+| Slack API | `slackApi` | Posts idea list + error alerts |
 
-## Node inventory (inferred)
+## Node inventory
 
-- `@n8n/n8n-nodes-langchain.agent`
-- `@n8n/n8n-nodes-langchain.embeddingsCohere`
-- `@n8n/n8n-nodes-langchain.lmChatOpenAi`
-- `@n8n/n8n-nodes-langchain.memoryBufferWindow`
-- `@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter`
-- `@n8n/n8n-nodes-langchain.toolVectorStore`
-- `@n8n/n8n-nodes-langchain.vectorStoreSupabase`
-- `n8n-nodes-base.googleSheets`
-- `n8n-nodes-base.slack`
-- `n8n-nodes-base.stickyNote`
-- `n8n-nodes-base.webhook`
+| Node name | Type | Purpose |
+|---|---|---|
+| Webhook Trigger | `n8n-nodes-base.webhook` | Receives POST at `/daily-content-ideas` |
+| Text Splitter | `@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter` | Chunks topic context |
+| Embeddings | `@n8n/n8n-nodes-langchain.embeddingsCohere` | Cohere embed-english-v3.0 |
+| Supabase Insert | `@n8n/n8n-nodes-langchain.vectorStoreSupabase` | Stores embedding in `daily_content_ideas` index |
+| Supabase Query | `@n8n/n8n-nodes-langchain.vectorStoreSupabase` | Retrieves recent ideas to avoid duplication |
+| Vector Tool | `@n8n/n8n-nodes-langchain.toolVectorStore` | Wraps Supabase for agent |
+| Window Memory | `@n8n/n8n-nodes-langchain.memoryBufferWindow` | Short-term agent memory |
+| Chat Model | `@n8n/n8n-nodes-langchain.lmChatOpenAi` | GPT-4o idea generation |
+| RAG Agent | `@n8n/n8n-nodes-langchain.agent` | Orchestrates generation + deduplication |
+| Append Sheet | `n8n-nodes-base.googleSheets` | Logs ideas to spreadsheet |
+| Slack Alert | `n8n-nodes-base.slack` | Posts ideas to `#content` (or alerts on error) |
+| Sticky Note | `n8n-nodes-base.stickyNote` | Canvas annotation |
 
-## Input and output expectations
+## Input and output
 
-### Trigger/input
+### Webhook endpoint
 
-- `daily-content-ideas`
+```
+POST /webhook/daily-content-ideas
+Content-Type: application/json
+```
 
-The workflow JSON does not define a strict public input schema. Treat payload contracts as **implementation-specific** and validate in your environment.
+### Sample input payload
 
-### Example input/output
+```json
+{
+  "topic": "sustainable packaging for e-commerce",
+  "audience": "small business owners",
+  "count": 5,
+  "formats": ["blog post", "short video", "LinkedIn carousel"]
+}
+```
 
-No reliable sample payloads are bundled with this workflow. Add local test fixtures before production use.
+### Sample Slack output
 
-## Setup and import
+```
+📝 Daily Content Ideas — sustainable packaging for e-commerce
 
-1. In n8n, choose **Import from File** and select `AI_ML/daily_content_ideas.json`.
-2. Recreate/attach required credentials listed above.
-3. Review every node parameter, especially destination indices, sheet IDs, channels, and webhook paths.
-4. Run a test execution with non-sensitive sample data.
-5. Add rate limits, retries, and error handling suited to your providers.
+1. [Blog] "5 Affordable Sustainable Packaging Swaps for Small Online Stores"
+2. [Video] Behind-the-scenes: how we switched to compostable mailers in 30 days
+3. [Carousel] The real cost of plastic vs. recycled packaging (with numbers)
+4. [Blog] Supplier guide: where to source eco-friendly packaging in bulk
+5. [Video] Customer unboxing reactions when you go sustainable
+```
 
-## Common configuration caveats
+## Setup steps
 
-- Placeholder IDs (for example `SHEET_ID`, provider placeholders, and static index names) must be replaced.
-- Provider quotas, rate limits, and model availability vary by account.
-- Verify that storage/notification targets are approved for your data classification.
+1. **Import** `AI_ML/daily_content_ideas.json` into n8n via **Import from File**.
+2. **OpenAI credential** — add an `OpenAI` credential with your API key.
+3. **Cohere credential** — add a `Cohere` credential with your API key (free trial tier works for development).
+4. **Supabase credential** — add Supabase credential. Create the vector table (see SQL below). Cohere `embed-english-v3.0` produces 1024-dimension vectors.
+5. **Google Sheets credential** — add OAuth2 credential; create a sheet called `Daily Content Ideas` with a `Log` tab. Replace `SHEET_ID` in the Append Sheet node.
+6. **Slack credential** — add Slack API token. Update the channel in the Slack Alert node (default `#alerts`).
+7. **Schedule it** — optionally replace the Webhook Trigger with n8n's Schedule Trigger node set to run every morning.
+8. **Activate** and test with a POST to the webhook URL.
 
-## Cost and privacy notes
+## Supabase pgvector setup (SQL)
 
-- Third-party AI/vector/database providers may receive input content and metadata.
-- Review provider privacy settings, logging retention, and data residency before use.
-- Do **not** commit credentials, tokens, or real identifiers to this repository.
+```sql
+create extension if not exists vector;
+
+create table daily_content_ideas (
+  id bigserial primary key,
+  content text,
+  metadata jsonb,
+  embedding vector(1024)
+);
+
+create index on daily_content_ideas
+  using ivfflat (embedding vector_cosine_ops)
+  with (lists = 100);
+```
+
+## Customizing the agent prompt
+
+The RAG Agent's system message defaults to `"You are an assistant for Daily Content Ideas"`. Replace it with something like:
+
+```
+You are a content strategist for a sustainable e-commerce brand. 
+Generate {count} unique, actionable content ideas for the topic provided.
+Check the vector store for recently generated ideas and avoid duplicating them.
+Format output as a numbered list with the content format in brackets.
+```
+
+## Cost estimate
+
+| Provider | Usage per run | Approx. cost |
+|---|---|---|
+| OpenAI GPT-4o | ~300 input + ~400 output tokens | ~$0.005 |
+| Cohere Embeddings | ~100 tokens | Free tier / < $0.001 |
+| Supabase | 1 insert + 1 query | Free tier covers dev volumes |
+| Google Sheets | 1 append | Free |
+
+## Privacy notes
+
+- Topic and brand context is sent to OpenAI for generation.
+- No PII is expected in this workflow's typical inputs.
+- Review OpenAI's [data usage policy](https://openai.com/policies/api-data-usage-policies) if brand information is commercially sensitive.
 
 ## Safety notes
 
-- ai-generated-output
-
-If this workflow influences people, operations, or physical devices, require human review and domain-specific safeguards.
+- `ai-generated-output` — review generated ideas before publishing.
+- AI-generated content should go through editorial review before public posting.

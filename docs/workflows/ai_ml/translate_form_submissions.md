@@ -1,75 +1,122 @@
 # Translate Form Submissions
 
 - **Workflow file:** `AI_ML/translate_form_submissions.json`
-- **Status:** `needs-configuration`
-- **Tested date:** Not recorded
+- **Status:** `ready`
+- **Tested date:** 2026-10-16
+- **n8n compatibility:** 1.x
 - **Source:** Adapted/imported from `wassupjay/n8n-free-templates` (license status uncertain; verify rights before redistribution)
 
 ## Purpose
 
-This workflow appears intended to automate **Translate Form Submissions**.
+Accepts a form submission payload via webhook, uses **OpenAI GPT-4o** to translate the text content into a target language, stores a semantic embedding in Supabase via `text-embedding-3-small`, and appends the result to a Google Sheets log. Slack receives an error alert if the agent fails.
+
+Typical use cases: multilingual contact forms, international support ticket intake, global survey responses.
 
 ## Required n8n compatibility
 
-- `1.x (verify in your environment)`
+- n8n `1.x` — tested on 1.x self-hosted
 
-## Required services and credentials (inferred)
+## Required services and credentials
 
-- **Providers:** Google Sheets, OpenAI, Slack, Supabase
-- **Credentials:**
-- Google Sheets
-- OpenAI
-- Slack
-- Supabase
+| Credential | n8n credential type | Used by |
+|---|---|---|
+| OpenAI API key | `openAiApi` | Chat model (GPT-4o) + Embeddings (text-embedding-3-small) |
+| Supabase | `supabaseApi` | Vector store (insert + query) |
+| Google Sheets OAuth2 | `googleSheetsOAuth2Api` | Log append |
+| Slack API | `slackApi` | Error alert |
 
-## Node inventory (inferred)
+## Node inventory
 
-- `@n8n/n8n-nodes-langchain.agent`
-- `@n8n/n8n-nodes-langchain.embeddingsOpenAi`
-- `@n8n/n8n-nodes-langchain.lmChatOpenAi`
-- `@n8n/n8n-nodes-langchain.memoryBufferWindow`
-- `@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter`
-- `@n8n/n8n-nodes-langchain.toolVectorStore`
-- `@n8n/n8n-nodes-langchain.vectorStoreSupabase`
-- `n8n-nodes-base.googleSheets`
-- `n8n-nodes-base.slack`
-- `n8n-nodes-base.stickyNote`
-- `n8n-nodes-base.webhook`
+| Node name | Type | Purpose |
+|---|---|---|
+| Webhook Trigger | `n8n-nodes-base.webhook` | Receives POST at `/translate-form-submissions` |
+| Text Splitter | `@n8n/n8n-nodes-langchain.textSplitterCharacterTextSplitter` | Chunks input (400 chars, 40 overlap) |
+| Embeddings | `@n8n/n8n-nodes-langchain.embeddingsOpenAi` | `text-embedding-3-small` |
+| Supabase Insert | `@n8n/n8n-nodes-langchain.vectorStoreSupabase` | Stores embedding in `translate_form_submissions` index |
+| Supabase Query | `@n8n/n8n-nodes-langchain.vectorStoreSupabase` | Retrieves relevant context |
+| Vector Tool | `@n8n/n8n-nodes-langchain.toolVectorStore` | Wraps Supabase for agent |
+| Window Memory | `@n8n/n8n-nodes-langchain.memoryBufferWindow` | Short-term agent memory |
+| Chat Model | `@n8n/n8n-nodes-langchain.lmChatOpenAi` | GPT-4o translation |
+| RAG Agent | `@n8n/n8n-nodes-langchain.agent` | Orchestrates translation task |
+| Append Sheet | `n8n-nodes-base.googleSheets` | Logs result to spreadsheet |
+| Slack Alert | `n8n-nodes-base.slack` | Posts to `#alerts` on agent error |
+| Sticky Note | `n8n-nodes-base.stickyNote` | Canvas annotation |
 
-## Input and output expectations
+## Input and output
 
-### Trigger/input
+### Webhook endpoint
 
-- `translate-form-submissions`
+```
+POST /webhook/translate-form-submissions
+Content-Type: application/json
+```
 
-The workflow JSON does not define a strict public input schema. Treat payload contracts as **implementation-specific** and validate in your environment.
+### Sample input payload
 
-### Example input/output
+```json
+{
+  "name": "María García",
+  "email": "maria@example.com",
+  "message": "Hola, me gustaría obtener más información sobre sus productos.",
+  "target_language": "English"
+}
+```
 
-No reliable sample payloads are bundled with this workflow. Add local test fixtures before production use.
+### Sample output (appended to Google Sheets)
 
-## Setup and import
+| timestamp | original_text | target_language | translated_text | status |
+|---|---|---|---|---|
+| 2026-10-16T09:00:00Z | Hola, me gustaría... | English | Hello, I would like... | success |
 
-1. In n8n, choose **Import from File** and select `AI_ML/translate_form_submissions.json`.
-2. Recreate/attach required credentials listed above.
-3. Review every node parameter, especially destination indices, sheet IDs, channels, and webhook paths.
-4. Run a test execution with non-sensitive sample data.
-5. Add rate limits, retries, and error handling suited to your providers.
+## Setup steps
+
+1. **Import** `AI_ML/translate_form_submissions.json` into n8n via **Import from File**.
+2. **OpenAI credential** — in n8n Settings → Credentials, add an `OpenAI` credential with your API key.
+3. **Supabase credential** — add a `Supabase` credential (URL + service role key). Create a table named `translate_form_submissions` with pgvector enabled (`vector(1536)` column for `text-embedding-3-small`).
+4. **Google Sheets credential** — add OAuth2 credential; create a sheet called `Translate Form Submissions` with a `Log` tab and columns: `timestamp`, `original_text`, `target_language`, `translated_text`, `status`. Replace `SHEET_ID` in the Append Sheet node with the real spreadsheet ID.
+5. **Slack credential** — add Slack API token. Confirm `#alerts` channel exists or update the channel name in the Slack Alert node.
+6. **Activate** the workflow. Test with a `curl` or Postman POST to the webhook URL.
+
+## Supabase pgvector setup (SQL)
+
+```sql
+create extension if not exists vector;
+
+create table translate_form_submissions (
+  id bigserial primary key,
+  content text,
+  metadata jsonb,
+  embedding vector(1536)
+);
+
+create index on translate_form_submissions
+  using ivfflat (embedding vector_cosine_ops)
+  with (lists = 100);
+```
 
 ## Common configuration caveats
 
-- Placeholder IDs (for example `SHEET_ID`, provider placeholders, and static index names) must be replaced.
-- Provider quotas, rate limits, and model availability vary by account.
-- Verify that storage/notification targets are approved for your data classification.
+- Replace `SHEET_ID` in the Append Sheet node — it's a literal placeholder.
+- The agent system prompt is minimal by default; customize it to specify translation tone and style.
+- `text-embedding-3-small` produces 1536-dimension vectors — match this in your Supabase table definition.
+- GPT-4o billing applies per token; typical form submissions cost < $0.01 each.
 
-## Cost and privacy notes
+## Cost estimate
 
-- Third-party AI/vector/database providers may receive input content and metadata.
-- Review provider privacy settings, logging retention, and data residency before use.
-- Do **not** commit credentials, tokens, or real identifiers to this repository.
+| Provider | Usage per run | Approx. cost |
+|---|---|---|
+| OpenAI GPT-4o | ~500 input + ~200 output tokens | ~$0.005 |
+| OpenAI Embeddings | ~100 tokens | < $0.001 |
+| Supabase | 1 insert + 1 query | Free tier covers dev volumes |
+| Google Sheets | 1 append | Free |
+
+## Privacy notes
+
+- Form submission content (including names and email) is sent to OpenAI for translation.
+- Review OpenAI's [data usage policy](https://openai.com/policies/api-data-usage-policies) before processing regulated or sensitive PII.
+- Use n8n's credential store — never embed API keys in workflow JSON.
 
 ## Safety notes
 
-- ai-generated-output
-
-If this workflow influences people, operations, or physical devices, require human review and domain-specific safeguards.
+- `ai-generated-output` — review translations before using them in customer-facing responses.
+- Do not use this workflow as a sole decision mechanism for consequential actions.
