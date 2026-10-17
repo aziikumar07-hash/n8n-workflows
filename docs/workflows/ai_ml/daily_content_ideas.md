@@ -133,3 +133,9 @@ Format output as a numbered list with the content format in brackets.
 
 - `ai-generated-output` — review generated ideas before publishing.
 - AI-generated content should go through editorial review before public posting.
+
+## Self-hosted / no-API-key variant
+
+A fully self-hosted version of this workflow is available that replaces GPT-4o with **Ollama (`llama3.1`)** and Cohere embeddings with **Ollama (`nomic-embed-text`)**. No external AI API credentials required.
+
+→ [`AI_ML/daily_content_ideas_ollama.json`](../../AI_ML/daily_content_ideas_ollama.json) — [Setup guide](daily_content_ideas_ollama.md)

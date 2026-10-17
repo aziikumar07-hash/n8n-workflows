@@ -84,6 +84,39 @@
       "node_count": 12
     },
     {
+      "name": "Daily Content Ideas (Ollama — self-hosted)",
+      "category": "AI_ML",
+      "relative_path": "AI_ML/daily_content_ideas_ollama.json",
+      "status": "needs-configuration",
+      "compatibility": {
+        "n8n": "1.x (verify in your environment)"
+      },
+      "providers": [
+        "Ollama",
+        "Google Sheets",
+        "Slack",
+        "Supabase"
+      ],
+      "required_credentials": [
+        "Google Sheets",
+        "Slack",
+        "Supabase"
+      ],
+      "documentation_path": "docs/workflows/ai_ml/daily_content_ideas_ollama.md",
+      "source": {
+        "type": "original",
+        "notes": "Self-hosted variant of daily_content_ideas.json — original work, not upstream-derived."
+      },
+      "tested_date": null,
+      "risk_flags": [
+        "ai-generated-output"
+      ],
+      "webhook_paths": [
+        "daily-content-ideas-ollama"
+      ],
+      "node_count": 12
+    },
+    {
       "name": "Daily Content Ideas",
       "category": "AI_ML",
       "relative_path": "AI_ML/daily_content_ideas.json",
