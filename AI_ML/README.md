@@ -6,8 +6,8 @@
 
 | Workflow | Status | OpenAI models | Providers | Documentation |
 |---|---|---|---|---|
-| `translate_form_submissions.json` | `ready` ✅ | GPT-4o, text-embedding-3-small | OpenAI, Google Sheets, Slack, Supabase | [Guide](../docs/workflows/ai_ml/translate_form_submissions.md) |
-| `daily_content_ideas.json` | `ready` ✅ | GPT-4o | OpenAI, Cohere, Google Sheets, Slack, Supabase | [Guide](../docs/workflows/ai_ml/daily_content_ideas.md) |
+| `translate_form_submissions.json` | `needs-configuration` | GPT-4o, text-embedding-3-small | OpenAI, Google Sheets, Slack, Supabase | [Guide](../docs/workflows/ai_ml/translate_form_submissions.md) |
+| `daily_content_ideas.json` | `needs-configuration` | GPT-4o | OpenAI, Cohere, Google Sheets, Slack, Supabase | [Guide](../docs/workflows/ai_ml/daily_content_ideas.md) |
 | `daily_content_ideas_ollama.json` | `needs-configuration` | — (self-hosted) | Ollama, Google Sheets, Slack, Supabase | [Guide](../docs/workflows/ai_ml/daily_content_ideas_ollama.md) |
 | `auto-tag_blog_posts.json` | `needs-configuration` | — | Anthropic, Google Sheets, OpenAI, Slack, ... | [Guide](../docs/workflows/ai_ml/auto-tag_blog_posts.md) |
 | `customer_sentiment_analysis.json` | `needs-configuration` | — | Anthropic, Cohere, Google Sheets, Pinecone, ... | [Guide](../docs/workflows/ai_ml/customer_sentiment_analysis.md) |

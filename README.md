@@ -42,7 +42,7 @@ This project is being improved toward production-oriented quality, but workflows
 
 Initial focus areas:
 
-1. **AI/ML** (`AI_ML/`) — 10 workflows, primary focus, 2 validated
+1. **AI/ML** (`AI_ML/`) — 11 workflows, primary focus
 2. **Agriculture** (`Agriculture/`) — 10 workflows, primary focus
 3. **Business automation patterns** (cross-category automations in `Social_Media/`, `Media/`, `Education/`, and related folders)
 
@@ -69,7 +69,7 @@ Unless explicitly validated, statuses remain conservative.
 
 | Category | Workflow count | Ready | Focus | Folder README |
 |---|---:|---:|---|---|
-| AI_ML | 11 | 2 | Primary | [AI_ML/README.md](AI_ML/README.md) |
+| AI_ML | 11 | 0 | Primary | [AI_ML/README.md](AI_ML/README.md) |
 | Agriculture | 10 | 0 | Primary | [Agriculture/README.md](Agriculture/README.md) |
 | Creative_Content | 1 | 0 | Secondary | [Creative_Content/README.md](Creative_Content/README.md) |
 | Education | 2 | 0 | Secondary | [Education/README.md](Education/README.md) |

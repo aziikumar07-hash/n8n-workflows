@@ -1,9 +1,9 @@
 # Daily Content Ideas
 
 - **Workflow file:** `AI_ML/daily_content_ideas.json`
-- **Status:** `ready`
-- **Tested date:** 2026-10-16
-- **n8n compatibility:** 1.x
+- **Status:** `needs-configuration`
+- **Tested date:** Not recorded
+- **n8n compatibility:** 1.x (verify in your environment)
 - **Source:** Adapted/imported from `wassupjay/n8n-free-templates` (license status uncertain; verify rights before redistribution)
 
 ## Purpose
