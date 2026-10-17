@@ -341,6 +341,34 @@
       "node_count": 12
     },
     {
+      "name": "Translate Form Submissions (local test)",
+      "category": "AI_ML",
+      "relative_path": "AI_ML/translate_form_submissions_local_test.json",
+      "status": "needs-configuration",
+      "compatibility": {
+        "n8n": "1.x (verify in your environment)"
+      },
+      "providers": [
+        "OpenAI"
+      ],
+      "required_credentials": [
+        "OpenAI"
+      ],
+      "documentation_path": "docs/workflows/ai_ml/local_test_guide.md",
+      "source": {
+        "type": "original",
+        "notes": "Local test variant of translate_form_submissions — replaces Supabase with in-memory vector store and Google Sheets with local file write. Original work."
+      },
+      "tested_date": null,
+      "risk_flags": [
+        "ai-generated-output"
+      ],
+      "webhook_paths": [
+        "translate-form-submissions-local"
+      ],
+      "node_count": 10
+    },
+    {
       "name": "Translate Form Submissions",
       "category": "AI_ML",
       "relative_path": "AI_ML/translate_form_submissions.json",

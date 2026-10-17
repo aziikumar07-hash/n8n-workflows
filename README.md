@@ -1,6 +1,6 @@
 # n8n Free Templates (Community-Maintained)
 
-A community-maintained collection of **55 documented n8n workflow templates** spanning AI/ML, Agriculture, IoT, Social Media, Media, Education, and Creative Content — with CI validation, per-workflow docs, and a machine-readable catalog.
+A community-maintained collection of **56 documented n8n workflow templates** spanning AI/ML, Agriculture, IoT, Social Media, Media, Education, and Creative Content — with CI validation, per-workflow docs, and a machine-readable catalog.
 
 ---
 
@@ -69,7 +69,7 @@ Unless explicitly validated, statuses remain conservative.
 
 | Category | Workflow count | Ready | Focus | Folder README |
 |---|---:|---:|---|---|
-| AI_ML | 11 | 0 | Primary | [AI_ML/README.md](AI_ML/README.md) |
+| AI_ML | 12 | 0 | Primary | [AI_ML/README.md](AI_ML/README.md) |
 | Agriculture | 10 | 0 | Primary | [Agriculture/README.md](Agriculture/README.md) |
 | Creative_Content | 1 | 0 | Secondary | [Creative_Content/README.md](Creative_Content/README.md) |
 | Education | 2 | 0 | Secondary | [Education/README.md](Education/README.md) |
