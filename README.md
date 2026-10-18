@@ -55,27 +55,48 @@ Other categories remain available while documentation and validation coverage ar
 - Machine-readable index is in `catalog/workflows.json`.
 - Validation tooling is in `scripts/validate_workflows.py`.
 
-## Workflow status labels
+## Testing tiers — what each label means
 
-- `ready` — validated by maintainers in a documented environment
-- `needs-configuration` — imports, but requires credential/config setup
-- `experimental` — exploratory/incomplete behavior
-- `not-tested` — no maintained import/run evidence
-- `deprecated` — retained for reference/migration
+We use a three-tier system so you know exactly what's been verified:
 
-Unless explicitly validated, statuses remain conservative.
+| Tier | What it means | How it's verified |
+|---|---|---|
+| **Schema-validated** | Valid n8n JSON, no secrets, all connections resolve | CI runs on every push |
+| **Import-tested** | Successfully imported into a live n8n instance | Manual — requires maintainer to import |
+| **Run-tested** | Executed end-to-end with real or mocked credentials | Manual — requires successful execution |
+
+**Currently all 56 workflows are at tier 1 (schema-validated).** None have been import-tested or run-tested yet. We will promote workflows to higher tiers only with documented evidence (screenshots, execution logs, or test scripts).
+
+### What CI checks (tier 1)
+
+- JSON parses correctly and conforms to our [schema](schemas/workflow.schema.json)
+- Every node has a valid `id`, `position`, and `type`
+- All connection edges reference existing node names
+- No suspicious secret patterns (AWS keys, API tokens, private keys) are present
+- Every workflow has a matching catalog entry and documentation file
+- Catalog statuses are from the allowed set
+
+### What CI does NOT check (yet)
+
+- Whether the workflow actually imports into n8n without errors
+- Whether nodes execute successfully
+- Whether API calls return expected responses
+- Whether the workflow completes end-to-end
+
+We plan to add import-testing via n8n's CLI (`n8n import:workflow`) in CI once the containerized test infrastructure is in place. See the [ROADMAP](ROADMAP.md).
 
 ## Catalog by category
 
-| Category | Workflow count | Ready | Focus | Folder README |
-|---|---:|---:|---|---|
-| AI_ML | 12 | 0 | Primary | [AI_ML/README.md](AI_ML/README.md) |
-| Agriculture | 10 | 0 | Primary | [Agriculture/README.md](Agriculture/README.md) |
-| Creative_Content | 1 | 0 | Secondary | [Creative_Content/README.md](Creative_Content/README.md) |
-| Education | 2 | 0 | Secondary | [Education/README.md](Education/README.md) |
-| IoT | 10 | 0 | Secondary | [IoT/README.md](IoT/README.md) |
-| Media | 10 | 0 | Secondary | [Media/README.md](Media/README.md) |
-| Social_Media | 11 | 0 | Secondary | [Social_Media/README.md](Social_Media/README.md) |
+| Category | Workflows | Tier 1 (schema) | Tier 2 (import) | Tier 3 (run) | Focus | Folder README |
+|---|---:|---:|---:|---:|---|---|
+| AI_ML | 12 | 12 | 0 | 0 | Primary | [AI_ML/README.md](AI_ML/README.md) |
+| Agriculture | 10 | 10 | 0 | 0 | Primary | [Agriculture/README.md](Agriculture/README.md) |
+| Creative_Content | 1 | 1 | 0 | 0 | Secondary | [Creative_Content/README.md](Creative_Content/README.md) |
+| Education | 2 | 2 | 0 | 0 | Secondary | [Education/README.md](Education/README.md) |
+| IoT | 10 | 10 | 0 | 0 | Secondary | [IoT/README.md](IoT/README.md) |
+| Media | 10 | 10 | 0 | 0 | Secondary | [Media/README.md](Media/README.md) |
+| Social_Media | 11 | 11 | 0 | 0 | Secondary | [Social_Media/README.md](Social_Media/README.md) |
+| **Total** | **56** | **56** | **0** | **0** | | |
 
 Global catalog: [`catalog/workflows.json`](catalog/workflows.json)
 
@@ -87,13 +108,23 @@ Global catalog: [`catalog/workflows.json`](catalog/workflows.json)
 4. Validate third-party endpoints, index names, spreadsheet IDs, and channels.
 5. Run with safe sample data first.
 
-## Compatibility and testing policy
+## Compatibility and known issues
 
+- **Minimum n8n version:** 1.50+ (workflows use LangChain AI nodes introduced in the 1.x series)
+- **Tested with:** n8n 2.43.7 (local install, Windows)
 - Compatibility is documented as `1.x (verify in your environment)` unless a tested version is recorded.
-- Do not mark a workflow as tested without import/run evidence.
-- The validator checks structure, node IDs/positions, suspicious secret patterns, JSON schema conformance, and doc/catalog coverage.
 
-Run locally:
+### Known failure cases
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Node shows "unknown type" on import | n8n version < 1.50 | Upgrade n8n |
+| OpenAI nodes fail with auth error | Credential not attached or wrong key | Re-attach credential to each AI node |
+| Embeddings node fails with dimension mismatch | Vector store table expects different dimensions | Match embedding model to table (e.g. `text-embedding-3-small` = 1536, `nomic-embed-text` = 768) |
+| Webhook test URL returns 404 | Workflow not in test mode | Click "Test workflow" before sending test request |
+| Google Sheets node fails | Placeholder `SHEET_ID` not replaced | Replace with real spreadsheet ID |
+
+Run the validator locally:
 
 ```bash
 pip install -r scripts/requirements.txt

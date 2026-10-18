@@ -36,7 +36,7 @@ Validated workflow docs now include:
 
 ```bash
 # Clone and validate
-git clone https://github.com/your-org/n8n-free-templates
+git clone https://github.com/aziikumar07-hash/n8n-workflows.git
 cd n8n-free-templates
 pip install -r scripts/requirements.txt
 python scripts/validate_workflows.py
