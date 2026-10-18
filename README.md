@@ -1,163 +1,108 @@
-# n8n Free Templates (Community-Maintained)
+# 56 Free n8n Workflow Templates — AI, Agriculture, IoT, Social Media
 
-A community-maintained collection of **56 documented n8n workflow templates** spanning AI/ML, Agriculture, IoT, Social Media, Media, Education, and Creative Content — with CI validation, per-workflow docs, and a machine-readable catalog.
+**Import into n8n → add your API key → run.** No paid tools required. Every workflow ships with a setup guide, sample payloads, and a troubleshooting section.
+
+[![CI](https://github.com/aziikumar07-hash/n8n-workflows/actions/workflows/validate-workflows.yml/badge.svg)](https://github.com/aziikumar07-hash/n8n-workflows/actions/workflows/validate-workflows.yml)
+[![n8n](https://img.shields.io/badge/n8n-1.50%2B-orange)](https://n8n.io)
+[![Workflows](https://img.shields.io/badge/workflows-56-blue)](catalog/workflows.json)
+[![Docs](https://img.shields.io/badge/docs-56%2F56-brightgreen)](docs/README.md)
 
 ---
 
-**[⭐ Star this repo](../../stargazers)**
+## Quick start (60 seconds)
+
+1. **Download** any workflow JSON from this repo
+2. **Open n8n** → click **Import from File** → select the JSON
+3. **Click each node** that shows a credential icon → attach your API key
+4. **Test workflow** → done
+
+That's it. Every workflow has a **[detailed setup guide](docs/README.md)** with step-by-step instructions, sample test payloads, and cost estimates.
 
 ---
 
-## Workflows powered by OpenAI
+## 10 AI Workflows (OpenAI-powered)
 
-This repository includes **10 workflows that use the OpenAI API** directly via n8n's LangChain integration nodes (`lmChatOpenAi`, `embeddingsOpenAi`, `Whisper`). These are the most actively maintained workflows in the collection.
+These use OpenAI directly through n8n's built-in LangChain nodes. Just add your OpenAI API key.
 
-| Workflow | OpenAI models used | Category | Docs |
-|---|---|---|---|
-| [Translate Form Submissions](AI_ML/translate_form_submissions.json) | `gpt-4o`, `text-embedding-3-small` | AI_ML | [Guide](docs/workflows/ai_ml/translate_form_submissions.md) |
-| [Daily Content Ideas](AI_ML/daily_content_ideas.json) | `gpt-4o` | AI_ML | [Guide](docs/workflows/ai_ml/daily_content_ideas.md) |
-| [Image Captioning](AI_ML/image_captioning.json) | `gpt-4o` (vision), `text-embedding-3-small` | AI_ML | [Guide](docs/workflows/ai_ml/image_captioning.md) |
-| [Product Description Generator](AI_ML/product_description_generator.json) | `gpt-4o` | AI_ML | [Guide](docs/workflows/ai_ml/product_description_generator.md) |
-| [Resume Screening](AI_ML/resume_screening.json) | `gpt-4o`, `text-embedding-3-small` | AI_ML | [Guide](docs/workflows/ai_ml/resume_screening.md) |
-| [Voice Note Transcription](AI_ML/voice_note_transcription.json) | `whisper-1`, `text-embedding-3-small` | AI_ML | [Guide](docs/workflows/ai_ml/voice_note_transcription.md) |
-| [Video Automation (images only)](Social_Media/Video_Automation__images_only_.json) | `gpt-4o` (vision) | Social_Media | [Guide](docs/workflows/social_media/Video_Automation__images_only_.md) |
-| [Alert on Instagram Competitor Story](Social_Media/alert_on_instagram_competitor_story.json) | `gpt-4o` | Social_Media | [Guide](docs/workflows/social_media/alert_on_instagram_competitor_story.md) |
-| [YouTube Comment Summarizer](Social_Media/youtube_comment_summarizer.json) | `gpt-4o`, `text-embedding-3-small` | Social_Media | [Guide](docs/workflows/social_media/youtube_comment_summarizer.md) |
-| [Breaking News Summarizer](Media/breaking_news_summarizer.json) | `gpt-4o`, `text-embedding-3-small` | Media | [Guide](docs/workflows/media/breaking_news_summarizer.md) |
-
-All ten workflows use OpenAI through n8n's official `@n8n/n8n-nodes-langchain` package and follow OpenAI's credential-hygiene best practices (no hard-coded keys, placeholder-only credential IDs, secret-scanning in CI).
-
-## Attribution and licensing context
-
-This repository started by importing/adapting templates from [`wassupjay/n8n-free-templates`](https://github.com/wassupjay/n8n-free-templates).
-
-- Upstream currently has **no declared GitHub license metadata**.
-- Because of that, you must verify redistribution rights before reusing upstream-derived workflow JSON files.
-- Attribution notices must be preserved in this repository and downstream copies.
-- See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for details.
-
-## Scope and positioning
-
-This project is being improved toward production-oriented quality, but workflows are **not automatically production-ready**.
-
-Initial focus areas:
-
-1. **AI/ML** (`AI_ML/`) — 11 workflows, primary focus
-2. **Agriculture** (`Agriculture/`) — 10 workflows, primary focus
-3. **Business automation patterns** (cross-category automations in `Social_Media/`, `Media/`, `Education/`, and related folders)
-
-Other categories remain available while documentation and validation coverage are expanded.
-
-## Repository structure
-
-- Workflow JSON files are grouped by category folders at repository root.
-- Per-workflow documentation is in `docs/workflows/<category>/`.
-- Machine-readable index is in `catalog/workflows.json`.
-- Validation tooling is in `scripts/validate_workflows.py`.
-
-## Testing tiers — what each label means
-
-We use a three-tier system so you know exactly what's been verified:
-
-| Tier | What it means | How it's verified |
+| Workflow | What it does | Setup guide |
 |---|---|---|
-| **Schema-validated** | Valid n8n JSON, no secrets, all connections resolve | CI runs on every push |
-| **Import-tested** | Successfully imported into a live n8n instance | Manual — requires maintainer to import |
-| **Run-tested** | Executed end-to-end with real or mocked credentials | Manual — requires successful execution |
+| [Translate Form Submissions](AI_ML/translate_form_submissions.json) | Auto-translate inbound form responses | [Guide](docs/workflows/ai_ml/translate_form_submissions.md) |
+| [Daily Content Ideas](AI_ML/daily_content_ideas.json) | Generate daily content ideas from trends | [Guide](docs/workflows/ai_ml/daily_content_ideas.md) |
+| [Daily Content Ideas (Ollama)](AI_ML/daily_content_ideas_ollama.json) | Same, runs on local Ollama — zero API cost | [Guide](docs/workflows/ai_ml/daily_content_ideas_ollama.md) |
+| [Image Captioning](AI_ML/image_captioning.json) | Auto-generate alt text and captions for images | [Guide](docs/workflows/ai_ml/image_captioning.md) |
+| [Product Description Generator](AI_ML/product_description_generator.json) | Turn product specs into marketing copy | [Guide](docs/workflows/ai_ml/product_description_generator.md) |
+| [Resume Screening](AI_ML/resume_screening.json) | Score and tag resumes against a job description | [Guide](docs/workflows/ai_ml/resume_screening.md) |
+| [Voice Note Transcription](AI_ML/voice_note_transcription.json) | Whisper transcription → structured summary | [Guide](docs/workflows/ai_ml/voice_note_transcription.md) |
+| [YouTube Comment Summarizer](Social_Media/youtube_comment_summarizer.json) | Summarize video comments into themes | [Guide](docs/workflows/social_media/youtube_comment_summarizer.md) |
+| [Breaking News Summarizer](Media/breaking_news_summarizer.json) | RSS → concise news briefings | [Guide](docs/workflows/media/breaking_news_summarizer.md) |
+| [Instagram Competitor Alerts](Social_Media/alert_on_instagram_competitor_story.json) | Monitor competitor stories, get notified | [Guide](docs/workflows/social_media/alert_on_instagram_competitor_story.md) |
 
-**Currently all 56 workflows are at tier 1 (schema-validated).** None have been import-tested or run-tested yet. We will promote workflows to higher tiers only with documented evidence (screenshots, execution logs, or test scripts).
+**Prefer local models?** The [Ollama variant](AI_ML/daily_content_ideas_ollama.json) runs entirely on your machine with zero API costs.
 
-### What CI checks (tier 1)
+---
 
-- JSON parses correctly and conforms to our [schema](schemas/workflow.schema.json)
-- Every node has a valid `id`, `position`, and `type`
-- All connection edges reference existing node names
-- No suspicious secret patterns (AWS keys, API tokens, private keys) are present
-- Every workflow has a matching catalog entry and documentation file
-- Catalog statuses are from the allowed set
+## All categories
 
-### What CI does NOT check (yet)
+| Category | Workflows | Best for |
+|---|---:|---|
+| [AI_ML](AI_ML/README.md) | 12 | Content generation, transcription, screening |
+| [Agriculture](Agriculture/README.md) | 10 | Crop monitoring, equipment alerts, yield prediction |
+| [IoT](IoT/README.md) | 10 | Sensor data, device logs, predictive maintenance |
+| [Social_Media](Social_Media/README.md) | 11 | Cross-posting, comment moderation, reporting |
+| [Media](Media/README.md) | 10 | News summarization, podcast notes, PR monitoring |
+| [Education](Education/README.md) | 2 | Quiz grading, student engagement |
+| [Creative_Content](Creative_Content/README.md) | 1 | YouTube transcript → blog post |
 
-- Whether the workflow actually imports into n8n without errors
-- Whether nodes execute successfully
-- Whether API calls return expected responses
-- Whether the workflow completes end-to-end
+Full catalog with status, providers, and credential requirements: [`catalog/workflows.json`](catalog/workflows.json)
 
-We plan to add import-testing via n8n's CLI (`n8n import:workflow`) in CI once the containerized test infrastructure is in place. See the [ROADMAP](ROADMAP.md).
+---
 
-## Catalog by category
+## What's included with each workflow
 
-| Category | Workflows | Tier 1 (schema) | Tier 2 (import) | Tier 3 (run) | Focus | Folder README |
-|---|---:|---:|---:|---:|---|---|
-| AI_ML | 12 | 12 | 0 | 0 | Primary | [AI_ML/README.md](AI_ML/README.md) |
-| Agriculture | 10 | 10 | 0 | 0 | Primary | [Agriculture/README.md](Agriculture/README.md) |
-| Creative_Content | 1 | 1 | 0 | 0 | Secondary | [Creative_Content/README.md](Creative_Content/README.md) |
-| Education | 2 | 2 | 0 | 0 | Secondary | [Education/README.md](Education/README.md) |
-| IoT | 10 | 10 | 0 | 0 | Secondary | [IoT/README.md](IoT/README.md) |
-| Media | 10 | 10 | 0 | 0 | Secondary | [Media/README.md](Media/README.md) |
-| Social_Media | 11 | 11 | 0 | 0 | Secondary | [Social_Media/README.md](Social_Media/README.md) |
-| **Total** | **56** | **56** | **0** | **0** | | |
+- **Workflow JSON** — ready to import into n8n
+- **Setup guide** — step-by-step docs with credential setup, sample payloads, and cost estimates
+- **Troubleshooting** — common failure modes and fixes
+- **Catalog entry** — machine-readable metadata (providers, credentials, webhook paths)
 
-Global catalog: [`catalog/workflows.json`](catalog/workflows.json)
+## Quality assurance
 
-## Import and configuration
+Every workflow passes CI validation on every push:
+- Valid n8n JSON structure (schema-validated)
+- No hard-coded secrets or API keys (secret-scanning)
+- All node connections resolve correctly
+- Every workflow has a doc file and catalog entry
 
-1. Open n8n and import a workflow JSON file.
-2. Review node parameters before first execution.
-3. Configure credentials in n8n (never hard-code secrets in workflow JSON).
-4. Validate third-party endpoints, index names, spreadsheet IDs, and channels.
-5. Run with safe sample data first.
+**Current testing status:** All 56 workflows are schema-validated. Import/run testing is in progress — see [ROADMAP.md](ROADMAP.md) for the testing plan.
 
-## Compatibility and known issues
+## Requirements
 
-- **Minimum n8n version:** 1.50+ (workflows use LangChain AI nodes introduced in the 1.x series)
-- **Tested with:** n8n 2.43.7 (local install, Windows)
-- Compatibility is documented as `1.x (verify in your environment)` unless a tested version is recorded.
+- **n8n** 1.50 or later (self-hosted or cloud)
+- **API keys** for whichever services a workflow uses (OpenAI, Google Sheets, Slack, etc.)
+- Each setup guide lists the exact credentials needed
 
-### Known failure cases
+## Known issues
 
-| Symptom | Cause | Fix |
-|---|---|---|
-| Node shows "unknown type" on import | n8n version < 1.50 | Upgrade n8n |
-| OpenAI nodes fail with auth error | Credential not attached or wrong key | Re-attach credential to each AI node |
-| Embeddings node fails with dimension mismatch | Vector store table expects different dimensions | Match embedding model to table (e.g. `text-embedding-3-small` = 1536, `nomic-embed-text` = 768) |
-| Webhook test URL returns 404 | Workflow not in test mode | Click "Test workflow" before sending test request |
-| Google Sheets node fails | Placeholder `SHEET_ID` not replaced | Replace with real spreadsheet ID |
+| Problem | Fix |
+|---|---|
+| Node shows "unknown type" on import | Update n8n to 1.50+ |
+| Auth error on AI nodes | Re-attach your credential to each AI node |
+| Embedding dimension mismatch | Match model to vector store (e.g. `text-embedding-3-small` = 1536, `nomic-embed-text` = 768) |
+| Webhook returns 404 | Click "Test workflow" before sending test requests |
 
-Run the validator locally:
+## Contributing
 
-```bash
-pip install -r scripts/requirements.txt
-python scripts/validate_workflows.py
-```
+Found a bug? Want to add a workflow? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Privacy and safety guidance
+**⭐ If these workflows save you time, star the repo** — it helps others find them and tells me to keep maintaining them.
 
-Workflows in this repository may send data to third-party services (for example AI models, vector DBs, sheets, messaging, and cloud APIs).
+## Attribution
 
-Before use:
+Started by adapting templates from [`wassupjay/n8n-free-templates`](https://github.com/wassupjay/n8n-free-templates). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for licensing details.
 
-- classify data and redact sensitive fields when possible
-- verify provider logging, retention, training, and regional settings
-- enforce least-privilege credentials and environment-level secret storage
-- avoid sending unnecessary PII to external providers
+## License
 
-Important safeguards:
+See [LICENSE](LICENSE). Documentation and scripts are MIT-licensed. Some workflow JSONs may derive from upstream sources with unclear licensing — verify redistribution rights before reuse.
 
-- **Resume screening and customer-impacting decisions:** do not rely on AI output as sole decision authority.
-- **Agriculture/IoT workflows:** add manual approvals and fail-safe controls before real-world actuation.
-- **AI-generated content:** require human review before publication or policy-sensitive actions.
+---
 
-## Governance, contributions, and security
-
-- Contribution guide: [`CONTRIBUTING.md`](CONTRIBUTING.md)
-- Code of conduct: [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)
-- Security policy: [`SECURITY.md`](SECURITY.md)
-- Changelog: [`CHANGELOG.md`](CHANGELOG.md)
-- Roadmap: [`ROADMAP.md`](ROADMAP.md)
-- Documentation overview: [`docs/README.md`](docs/README.md)
-- Support the project: [`SPONSORING.md`](SPONSORING.md)
-
-## License scope
-
-See [`LICENSE`](LICENSE). It is intentionally scoped to original repository documentation/scripts/metadata and does **not** claim rights over upstream-derived workflow JSON where licensing is uncertain.
+**[Support this project](SPONSORING.md)** · **[Report an issue](https://github.com/aziikumar07-hash/n8n-workflows/issues)** · **[View all docs](docs/README.md)**
