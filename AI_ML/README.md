@@ -7,6 +7,7 @@
 | Workflow | Status | OpenAI models | Providers | Documentation |
 |---|---|---|---|---|
 | `translate_form_submissions.json` | `needs-configuration` | GPT-4o, text-embedding-3-small | OpenAI, Google Sheets, Slack, Supabase | [Guide](../docs/workflows/ai_ml/translate_form_submissions.md) |
+| `translate_form_submissions_ollama.json` | `ready` (run-tested 2026-10-20) | — (self-hosted) | Ollama only (in-memory vector store) | [Guide](../docs/workflows/ai_ml/translate_form_submissions_ollama.md) |
 | `daily_content_ideas.json` | `needs-configuration` | GPT-4o | OpenAI, Cohere, Google Sheets, Slack, Supabase | [Guide](../docs/workflows/ai_ml/daily_content_ideas.md) |
 | `daily_content_ideas_ollama.json` | `needs-configuration` | — (self-hosted) | Ollama, Google Sheets, Slack, Supabase | [Guide](../docs/workflows/ai_ml/daily_content_ideas_ollama.md) |
 | `translate_form_submissions_local_test.json` | `needs-configuration` | gpt-4o-mini, text-embedding-3-small | OpenAI only (in-memory vector store) | [Local test guide](../docs/workflows/ai_ml/local_test_guide.md) |

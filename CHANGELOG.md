@@ -10,6 +10,11 @@ This project follows a simple release policy:
 
 ## [Unreleased]
 
+### Added
+
+- `AI_ML/translate_form_submissions_ollama.json` — self-hosted Ollama variant of the translation pipeline (chat model + embeddings via local Ollama, in-memory vector store, file output). **First workflow run-tested end-to-end (Tier 3):** full execution green on n8n 2.43.7 + Ollama on Windows (2026-10-20). Setup guide documents two gotchas found during testing: use `127.0.0.1` (not `localhost`) in the Ollama credential because n8n's fetch does not fall back from IPv6 `::1`, and n8n 2.x blocks file writes outside `~/.n8n-files` unless `N8N_RESTRICT_FILE_ACCESS_TO` is set.
+- Catalog entry with `status: ready` and `tested_date` for the Ollama variant; README testing-status section updated to reflect the first Tier 3 validation.
+
 ## [v0.2.0] - 2026-10-16
 
 ### Added

@@ -369,6 +369,34 @@
       "node_count": 10
     },
     {
+      "name": "Translate Form Submissions (Ollama)",
+      "category": "AI_ML",
+      "relative_path": "AI_ML/translate_form_submissions_ollama.json",
+      "status": "ready",
+      "compatibility": {
+        "n8n": "2.x (run-tested on 2.43.7)"
+      },
+      "providers": [
+        "Ollama"
+      ],
+      "required_credentials": [
+        "Ollama (ollamaApi)"
+      ],
+      "documentation_path": "docs/workflows/ai_ml/translate_form_submissions_ollama.md",
+      "source": {
+        "type": "original",
+        "notes": "Self-hosted Ollama variant of translate_form_submissions_local_test — chat model and embeddings run locally via Ollama, no API keys. Original work."
+      },
+      "tested_date": "2026-10-20",
+      "risk_flags": [
+        "ai-generated-output"
+      ],
+      "webhook_paths": [
+        "translate-form-submissions-ollama"
+      ],
+      "node_count": 11
+    },
+    {
       "name": "Translate Form Submissions",
       "category": "AI_ML",
       "relative_path": "AI_ML/translate_form_submissions.json",

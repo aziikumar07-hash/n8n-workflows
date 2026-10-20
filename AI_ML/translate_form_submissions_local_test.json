@@ -74,7 +74,10 @@
       "position": [270, -180]
     },
     {
-      "parameters": {},
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook Trigger').first().json.body.sessionId || $('Webhook Trigger').first().json.body.email || $execution.id }}"
+      },
       "id": "f0000001-0000-0000-0000-000000000007",
       "name": "Window Memory",
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
@@ -99,8 +102,9 @@
       }
     },
     {
-      "parameters": {
-        "promptType": "define",
+    "parameters": {
+      "agent": "toolsAgent",
+      "promptType": "define",
         "text": "={{ $json.body.message || $json.message }}\n\nTranslate the above text to: {{ $json.body.target_language || $json.target_language || 'English' }}\n\nReturn only the translated text, nothing else.",
         "options": {
           "systemMessage": "You are a professional translator. Translate the input text accurately to the requested target language. Return only the translated text with no explanation or extra formatting."
@@ -109,12 +113,27 @@
       "id": "f0000001-0000-0000-0000-000000000009",
       "name": "Translation Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1,
+    "typeVersion": 1.9,
       "position": [720, -40]
     },
     {
       "parameters": {
         "operation": "toJson",
+        "mode": "each",
+        "binaryPropertyName": "data",
+        "options": {
+          "fileName": "translation.json",
+          "format": true
+        }
+      },
+      "id": "f0000001-0000-0000-0000-000000000011",
+      "name": "Convert Agent Output to JSON File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1,
+      "position": [820, -40]
+    },
+    {
+      "parameters": {
         "fileName": "C:\\Users\\Administrator\\Desktop\\translations_log.json",
         "options": {
           "append": true
@@ -132,12 +151,7 @@
       "main": [
         [
           {
-            "node": "Text Splitter",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Window Memory",
+            "node": "Translation Agent",
             "type": "main",
             "index": 0
           }
@@ -205,6 +219,17 @@
       ]
     },
     "Translation Agent": {
+      "main": [
+        [
+          {
+            "node": "Convert Agent Output to JSON File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert Agent Output to JSON File": {
       "main": [
         [
           {
