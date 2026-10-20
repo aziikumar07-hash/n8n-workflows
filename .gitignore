@@ -1,0 +1,10 @@
+# IDE settings
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS noise
+Thumbs.db
+.DS_Store
