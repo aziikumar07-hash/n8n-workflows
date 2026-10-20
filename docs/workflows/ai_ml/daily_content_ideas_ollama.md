@@ -18,6 +18,8 @@ Everything runs on your own hardware. The only external services are Supabase (f
 
 Good for: air-gapped environments, cost-sensitive deployments, privacy-first setups, or anyone who wants to avoid API keys entirely.
 
+> **No Supabase, Google Sheets, or Slack?** Use the run-tested [local-test variant](daily_content_ideas_ollama_local_test.md) instead — identical agent logic, but self-contained (in-memory vector store + file output, Ollama as the only dependency).
+
 ## Model swap summary
 
 | Component | Cloud variant | This variant |

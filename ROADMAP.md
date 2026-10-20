@@ -13,6 +13,7 @@
 - [x] JSON schema validation integrated into CI (`jsonschema` via `scripts/requirements.txt`)
 - [x] First two workflows promoted to `ready` with full setup docs, sample payloads, and SQL scripts (`translate_form_submissions`, `daily_content_ideas`)
 - [x] First workflow run-tested end-to-end (Tier 3): `translate_form_submissions_ollama` — full pipeline green on n8n 2.43.7 + Ollama (2026-10-20); findings documented in its setup guide (use `127.0.0.1` not `localhost` for Ollama; n8n 2.x requires `N8N_RESTRICT_FILE_ACCESS_TO` for out-of-tree file writes)
+- [x] Second workflow run-tested end-to-end (Tier 3): `daily_content_ideas_ollama_local_test` — webhook → vector-store insert (Document Loader chain) → RAG agent with dedup tool → file output, all green on n8n 2.43.7 + Ollama `llama3.1`/`nomic-embed-text` (2026-10-20); test exposed and fixed a design defect (chaining insert → agent runs the agent once per chunk), documented in its setup guide
 - [ ] Validate remaining AI/ML and Social Media priority workflows end-to-end in n8n 1.x
 - [ ] Promote additional verified workflows to `ready`
 - [ ] Add category-level compatibility notes and known limitations to all category READMEs

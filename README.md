@@ -1,11 +1,11 @@
-# 57 Free n8n Workflow Templates — AI, Agriculture, IoT, Social Media
+# 58 Free n8n Workflow Templates — AI, Agriculture, IoT, Social Media
 
 **Import into n8n → add your API key → run.** No paid tools required. Every workflow ships with a setup guide, sample payloads, and a troubleshooting section.
 
 [![CI](https://github.com/aziikumar07-hash/n8n-workflows/actions/workflows/validate-workflows.yml/badge.svg)](https://github.com/aziikumar07-hash/n8n-workflows/actions/workflows/validate-workflows.yml)
 [![n8n](https://img.shields.io/badge/n8n-1.50%2B-orange)](https://n8n.io)
-[![Workflows](https://img.shields.io/badge/workflows-57-blue)](catalog/workflows.json)
-[![Docs](https://img.shields.io/badge/docs-57%2F57-brightgreen)](docs/README.md)
+[![Workflows](https://img.shields.io/badge/workflows-58-blue)](catalog/workflows.json)
+[![Docs](https://img.shields.io/badge/docs-58%2F58-brightgreen)](docs/README.md)
 
 ---
 
@@ -20,9 +20,9 @@ That's it. Every workflow has a **[detailed setup guide](docs/README.md)** with 
 
 ---
 
-## 11 AI Workflows (OpenAI-powered)
+## 12 AI Workflows (OpenAI-powered, plus run-tested Ollama variants)
 
-These use OpenAI directly through n8n's built-in LangChain nodes. Just add your OpenAI API key.
+These use OpenAI directly through n8n's built-in LangChain nodes. Just add your OpenAI API key. The Ollama variants run entirely on your machine with no API keys — two of them are run-tested end-to-end.
 
 | Workflow | What it does | Setup guide |
 |---|---|---|
@@ -30,6 +30,7 @@ These use OpenAI directly through n8n's built-in LangChain nodes. Just add your 
 | [Translate Form Submissions (Ollama)](AI_ML/translate_form_submissions_ollama.json) | Same pipeline on local Ollama — run-tested, zero API cost | [Guide](docs/workflows/ai_ml/translate_form_submissions_ollama.md) |
 | [Daily Content Ideas](AI_ML/daily_content_ideas.json) | Generate daily content ideas from trends | [Guide](docs/workflows/ai_ml/daily_content_ideas.md) |
 | [Daily Content Ideas (Ollama)](AI_ML/daily_content_ideas_ollama.json) | Same, runs on local Ollama — zero API cost | [Guide](docs/workflows/ai_ml/daily_content_ideas_ollama.md) |
+| [Daily Content Ideas (Ollama local test)](AI_ML/daily_content_ideas_ollama_local_test.json) | Self-contained RAG pipeline — run-tested, no external services at all | [Guide](docs/workflows/ai_ml/daily_content_ideas_ollama_local_test.md) |
 | [Image Captioning](AI_ML/image_captioning.json) | Auto-generate alt text and captions for images | [Guide](docs/workflows/ai_ml/image_captioning.md) |
 | [Product Description Generator](AI_ML/product_description_generator.json) | Turn product specs into marketing copy | [Guide](docs/workflows/ai_ml/product_description_generator.md) |
 | [Resume Screening](AI_ML/resume_screening.json) | Score and tag resumes against a job description | [Guide](docs/workflows/ai_ml/resume_screening.md) |
@@ -38,7 +39,7 @@ These use OpenAI directly through n8n's built-in LangChain nodes. Just add your 
 | [Breaking News Summarizer](Media/breaking_news_summarizer.json) | RSS → concise news briefings | [Guide](docs/workflows/media/breaking_news_summarizer.md) |
 | [Instagram Competitor Alerts](Social_Media/alert_on_instagram_competitor_story.json) | Monitor competitor stories, get notified | [Guide](docs/workflows/social_media/alert_on_instagram_competitor_story.md) |
 
-**Prefer local models?** The [Ollama variant](AI_ML/daily_content_ideas_ollama.json) runs entirely on your machine with zero API costs.
+**Prefer local models?** The [Ollama variants](AI_ML/daily_content_ideas_ollama_local_test.json) run entirely on your machine with zero API costs — and the local-test variant needs nothing but n8n and Ollama.
 
 ---
 
@@ -46,7 +47,7 @@ These use OpenAI directly through n8n's built-in LangChain nodes. Just add your 
 
 | Category | Workflows | Best for |
 |---|---:|---|
-| [AI_ML](AI_ML/README.md) | 13 | Content generation, transcription, screening |
+| [AI_ML](AI_ML/README.md) | 14 | Content generation, transcription, screening |
 | [Agriculture](Agriculture/README.md) | 10 | Crop monitoring, equipment alerts, yield prediction |
 | [IoT](IoT/README.md) | 10 | Sensor data, device logs, predictive maintenance |
 | [Social_Media](Social_Media/README.md) | 11 | Cross-posting, comment moderation, reporting |
@@ -73,7 +74,7 @@ Every workflow passes CI validation on every push:
 - All node connections resolve correctly
 - Every workflow has a doc file and catalog entry
 
-**Current testing status:** All 57 workflows are schema-validated. One workflow ([Translate Form Submissions (Ollama)](AI_ML/translate_form_submissions_ollama.json)) has been imported into a live n8n instance and run-tested end-to-end — webhook trigger through AI translation to file output, on n8n 2.43.7 with Ollama (2026-10-20). See [ROADMAP.md](ROADMAP.md) for the testing plan.
+**Current testing status:** All 58 workflows are schema-validated. Two workflows have been imported into a live n8n instance and run-tested end-to-end on n8n 2.43.7 with Ollama (2026-10-20): [Translate Form Submissions (Ollama)](AI_ML/translate_form_submissions_ollama.json) (webhook trigger through AI translation to file output) and [Daily Content Ideas (Ollama local test)](AI_ML/daily_content_ideas_ollama_local_test.json) (webhook trigger through vector-store insert and a RAG agent to file output). See [ROADMAP.md](ROADMAP.md) for the testing plan.
 
 ## Requirements
 

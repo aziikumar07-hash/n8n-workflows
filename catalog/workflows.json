@@ -117,6 +117,34 @@
       "node_count": 12
     },
     {
+      "name": "Daily Content Ideas (Ollama — local test)",
+      "category": "AI_ML",
+      "relative_path": "AI_ML/daily_content_ideas_ollama_local_test.json",
+      "status": "ready",
+      "compatibility": {
+        "n8n": "2.x (run-tested on 2.43.7)"
+      },
+      "providers": [
+        "Ollama"
+      ],
+      "required_credentials": [
+        "Ollama (ollamaApi)"
+      ],
+      "documentation_path": "docs/workflows/ai_ml/daily_content_ideas_ollama_local_test.md",
+      "source": {
+        "type": "original",
+        "notes": "Self-contained local-test variant of daily_content_ideas_ollama — in-memory vector store and file output instead of Supabase/Sheets/Slack; chat model llama3.1, embeddings nomic-embed-text. Original work."
+      },
+      "tested_date": "2026-10-20",
+      "risk_flags": [
+        "ai-generated-output"
+      ],
+      "webhook_paths": [
+        "daily-content-ideas-ollama-local"
+      ],
+      "node_count": 12
+    },
+    {
       "name": "Daily Content Ideas",
       "category": "AI_ML",
       "relative_path": "AI_ML/daily_content_ideas.json",
